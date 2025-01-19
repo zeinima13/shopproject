@@ -1,19 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
+  reactStrictMode: true,
   experimental: {
     appDir: true
-  },
-  reactStrictMode: true,
-  async rewrites() {
-    return {
-      beforeFiles: [
-        {
-          source: '/:path*',
-          destination: '/:path*',
-        },
-      ],
-    }
   },
   images: {
     domains: ['via.placeholder.com'],
