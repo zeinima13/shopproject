@@ -1,5 +1,8 @@
 'use client'
 
+import { products } from './data/products'
+import ProductCard from './components/ProductCard'
+
 export default function Home() {
   return (
     <div>
@@ -7,7 +10,11 @@ export default function Home() {
         <h1>优质商品 一站购齐</h1>
       </div>
       <div className="container">
-        <p>欢迎访问我们的商店！</p>
+        <div className="products-grid">
+          {products.map(product => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
       </div>
       <style jsx global>{`
         body {
