@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 // 静态文件服务
-app.use(express.static('public'));
+app.use('/', express.static(path.join(__dirname, 'public')));
 
 // API 路由
 app.get('/api/health', (req, res) => {
@@ -18,12 +18,19 @@ app.get('/api/health', (req, res) => {
 
 // 所有其他路由返回 index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/index.html'));
+  if (!req.path.startsWith('/api')) {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  }
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
-
+// 导出 app 而不是启动服务器
+// 这样 Vercel 可以处理服务器的启动
 module.exports = app;
+
+// 本地开发时使用
+if (process.env.NODE_ENV !== 'production') {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+}
