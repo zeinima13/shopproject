@@ -2,12 +2,20 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-// 静态文件服务
-app.use(express.static('public'));
+// 基本的错误处理
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
-// 所有路由返回index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// 测试路由
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'API is working!' });
+});
+
+// 主页路由
+app.get('/', (req, res) => {
+  res.send('Hello from Vercel!');
 });
 
 // 导出app供Vercel使用
