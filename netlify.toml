@@ -1,9 +1,9 @@
 [build]
-  command = "npm run build"
+  command = "npm install && npm run build"
   publish = ".next"
 
 [build.environment]
-  NETLIFY_NEXT_PLUGIN_SKIP = "true"
+  NEXT_PUBLIC_API_URL = "http://localhost:3000"
   NODE_VERSION = "18"
 
 [[plugins]]

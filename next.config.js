@@ -1,12 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  target: 'serverless',
-  output: 'export',
+  output: 'standalone',
   images: {
-    unoptimized: true,
-  },
-  env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    unoptimized: true
   }
 }
 
