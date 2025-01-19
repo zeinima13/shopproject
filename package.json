@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
-    "build": "echo 'No build step required'"
+    "build": "cp -r public/* .",
+    "vercel-build": "echo 'Building...'"
   },
   "dependencies": {
     "express": "^4.18.2",
