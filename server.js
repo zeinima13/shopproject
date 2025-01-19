@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 // 静态文件服务
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // API 路由
 app.get('/api/products', (req, res) => {
@@ -28,12 +28,6 @@ app.get('*', (req, res) => {
 });
 
 const port = process.env.PORT || 3000;
-
-// 本地开发时启动服务器
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-  });
-}
-
-module.exports = app;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
