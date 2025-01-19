@@ -1,3 +1,5 @@
+import './globals.css'
+
 export const metadata = {
   title: '优质商品 一站购齐',
   description: '欢迎访问我们的商店',
