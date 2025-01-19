@@ -3,5 +3,20 @@
   "buildCommand": "next build",
   "devCommand": "next dev",
   "installCommand": "npm install",
-  "outputDirectory": ".next"
+  "outputDirectory": ".next",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "321321-theta.vercel.app"
+        }
+      ],
+      "destination": "https://321321-git-master-zeinima13s-projects.vercel.app/:path*",
+      "permanent": true
+    }
+  ]
 }
