@@ -4,7 +4,7 @@
   "main": "api/index.js",
   "scripts": {
     "start": "node api/index.js",
-    "build": "npm install",
+    "build": "echo 'No build step needed'",
     "vercel-build": "echo 'Build step completed'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
