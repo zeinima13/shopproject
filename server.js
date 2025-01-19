@@ -1,16 +1,39 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
+
 const app = express();
 
-// 提供 public 文件夹中的静态资源
-app.use(express.static(path.join(__dirname, 'public')));
+// 中间件
+app.use(cors());
+app.use(express.json());
 
-// 设置主页路由
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// 静态文件服务
+app.use(express.static('public'));
+
+// API 路由
+app.get('/api/products', (req, res) => {
+  // TODO: 从数据库获取商品列表
+  res.json([]);
 });
 
-// 启动服务器
-app.listen(3000, () => {
-    console.log('服务器启动成功，访问地址：http://localhost:3000');
+// 健康检查
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok' });
 });
+
+// 所有其他路由返回 index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+const port = process.env.PORT || 3000;
+
+// 本地开发时启动服务器
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+}
+
+module.exports = app;
