@@ -3,10 +3,6 @@
   "public": true,
   "builds": [
     {
-      "src": "public/**",
-      "use": "@vercel/static"
-    },
-    {
       "src": "api/index.js",
       "use": "@vercel/node"
     }
@@ -18,7 +14,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/public/$1"
+      "dest": "/api/index.js"
     }
   ],
   "github": {
