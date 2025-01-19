@@ -1,0 +1,81 @@
+/* 样式调整 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+  }
+  
+  header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .store-banner {
+    width: 100%;
+    height: auto;
+  }
+  
+  .merchant-info {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .merchant-info .info h2, .merchant-info .announcement h2 {
+    margin-top: 0;
+  }
+  
+  .merchant-info p {
+    font-size: 1.1em;
+  }
+  
+  .announcement marquee {
+    font-size: 1.1em;
+    color: #f00;
+  }
+  
+  .order-section {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .order-section h2 {
+    text-align: center;
+  }
+  
+  label {
+    font-size: 1em;
+    margin-top: 10px;
+    display: block;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  strong {
+    font-size: 1.2em;
+  }
+  

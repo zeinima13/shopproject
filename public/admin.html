@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商店管理系统</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .login-form {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .qrcode-preview {
+            max-width: 200px;
+            margin-top: 10px;
+        }
+
+        .error {
+            color: red;
+            margin-top: 5px;
+        }
+
+        .success {
+            color: green;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 登录表单 -->
+    <div id="loginForm" class="login-form">
+        <h2>管理员登录</h2>
+        <form>
+            <div>
+                <label for="username">用户名：</label>
+                <input type="text" id="username" required>
+            </div>
+            <div>
+                <label for="password">密码：</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit">登录</button>
+        </form>
+    </div>
+
+    <!-- 管理面板 -->
+    <div id="adminPanel" class="container" style="display: none;">
+        <h1>商店管理系统</h1>
+
+        <!-- 商户信息管理 -->
+        <div class="section">
+            <h2>商户信息管理</h2>
+            <div>
+                <label for="merchantName">商户名称：</label>
+                <input type="text" id="merchantName">
+            </div>
+            <div>
+                <label for="customerService">客服信息：</label>
+                <input type="text" id="customerService">
+            </div>
+            <div>
+                <label for="announcement">公告信息：</label>
+                <textarea id="announcement" rows="4"></textarea>
+            </div>
+            <button id="updateShopInfoBtn">更新商户信息</button>
+        </div>
+
+        <!-- 收款二维码管理 -->
+        <div class="section">
+            <h2>收款二维码管理</h2>
+            <div>
+                <input type="file" id="qrcodeFile" accept="image/*">
+                <button id="uploadQRCodeBtn">上传二维码</button>
+            </div>
+            <div>
+                <img id="currentQRCode" class="qrcode-preview" style="display: none;">
+            </div>
+        </div>
+
+        <!-- 商品管理 -->
+        <div class="section">
+            <h2>商品管理</h2>
+            <div>
+                <label for="productCategory">商品分类：</label>
+                <input type="text" id="productCategory" required>
+            </div>
+            <div>
+                <label for="productName">商品名称：</label>
+                <input type="text" id="productName" required>
+            </div>
+            <div>
+                <label for="productPrice">商品单价：</label>
+                <input type="number" id="productPrice" step="0.01" required>
+            </div>
+            <div>
+                <label for="productStock">库存数量：</label>
+                <input type="number" id="productStock" required>
+            </div>
+            <button id="addProductBtn">添加商品</button>
+
+            <table id="productTable">
+                <thead>
+                    <tr>
+                        <th>分类</th>
+                        <th>名称</th>
+                        <th>价格</th>
+                        <th>库存</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- 批量导入商品 -->
+        <div class="section">
+            <h2>批量导入商品</h2>
+            <div>
+                <input type="file" id="importFile" accept=".csv,.txt">
+                <button id="importBtn">导入商品</button>
+            </div>
+            <p>请上传CSV格式文件，每行格式：分类,名称,价格,库存</p>
+        </div>
+        
+        <!-- 商品管理页面 -->
+        <div class="section">
+            <h2>商品管理页面</h2>
+            <div class="container">
+                <h1>商品管理</h1>
+                
+                <form id="productForm" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label>商品分类:</label>
+                        <input type="text" class="form-control" id="category" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>商品名称:</label>
+                        <input type="text" class="form-control" id="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>商品单价:</label>
+                        <input type="number" class="form-control" id="price" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>库存数量:</label>
+                        <input type="number" class="form-control" id="stock" required>
+                    </div>
+                    
+                    <button type="submit" class="btn">添加商品</button>
+                </form>
+
+                <div class="product-list" id="productList">
+                    <!-- 商品列表将通过JavaScript动态加载 -->
+                </div>
+            </div>
+
+            <script>
+                // 加载商品列表
+                async function loadProducts() {
+                    try {
+                        const response = await fetch('/api/products');
+                        const products = await response.json();
+                        const productList = document.getElementById('productList');
+                        
+                        productList.innerHTML = '';
+                        
+                        products.forEach(product => {
+                            const productElement = document.createElement('div');
+                            productElement.className = 'product-item';
+                            productElement.innerHTML = `
+                                <div class="product-item-header">
+                                    <span class="product-name">${product.name}</span>
+                                    <div class="product-actions">
+                                        <button class="btn" onclick="deleteProduct('${product.id}')">删除</button>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <div>分类: ${product.category}</div>
+                                    <div>单价: ${product.price} USDT</div>
+                                    <div>库存: ${product.stock}</div>
+                                </div>
+                            `;
+                            productList.appendChild(productElement);
+                        });
+                    } catch (error) {
+                        console.error('加载商品失败:', error);
+                    }
+                }
+
+                // 添加商品
+                async function handleSubmit(event) {
+                    event.preventDefault();
+                    
+                    const product = {
+                        category: document.getElementById('category').value,
+                        name: document.getElementById('name').value,
+                        price: parseFloat(document.getElementById('price').value),
+                        stock: parseInt(document.getElementById('stock').value),
+                        id: Date.now().toString()
+                    };
+
+                    try {
+                        const response = await fetch('/api/products', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(product)
+                        });
+
+                        if (response.ok) {
+                            document.getElementById('productForm').reset();
+                            loadProducts();
+                        } else {
+                            alert('添加商品失败');
+                        }
+                    } catch (error) {
+                        console.error('添加商品失败:', error);
+                        alert('添加商品失败');
+                    }
+                }
+
+                // 删除商品
+                async function deleteProduct(id) {
+                    if (!confirm('确定要删除这个商品吗？')) return;
+
+                    try {
+                        const response = await fetch(`/api/products/${id}`, {
+                            method: 'DELETE'
+                        });
+
+                        if (response.ok) {
+                            loadProducts();
+                        } else {
+                            alert('删除商品失败');
+                        }
+                    } catch (error) {
+                        console.error('删除商品失败:', error);
+                        alert('删除商品失败');
+                    }
+                }
+
+                // 页面加载时初始化
+                loadProducts();
+            </script>
+        </div>
+    </div>
+
+    <script src="/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单信息</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        .order-info {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .success-icon {
+            color: #4CAF50;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .order-detail {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        .order-detail p {
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        .payment-notice {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .order-id {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        .amount {
+            font-size: 20px;
+            color: #e44d26;
+            font-weight: bold;
+        }
+        .qrcode-section {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .qrcode-section img {
+            max-width: 200px;
+            margin: 10px auto;
+            display: block;
+        }
+        .qrcode-section h3 {
+            margin: 0 0 15px 0;
+            color: #333;
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            .qrcode-section img {
+                max-width: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="order-info">
+            <div class="success-icon">✓</div>
+            <h2 style="text-align: center; margin: 0 0 20px 0;">订单创建成功</h2>
+            <div class="order-detail">
+                <p class="order-id">订单号: <span id="orderId"></span></p>
+                <p>商品: <span id="productName"></span></p>
+                <p>数量: <span id="quantity"></span></p>
+                <p>邮箱: <span id="email"></span></p>
+                <p class="amount">总金额: <span id="totalAmount"></span> USDT</p>
+            </div>
+        </div>
+
+        <div class="qrcode-section">
+            <h3>USDT收款二维码</h3>
+            <img id="qrcode-image" src="" alt="收款二维码">
+            <p style="color: #666; font-size: 14px;">请使用USDT钱包扫描二维码进行支付</p>
+        </div>
+
+        <div class="payment-notice">
+            由于第三方充值限制，目前只能USDT充值，请针对相应钱包进行转账充值，充值成功后自动到账。
+        </div>
+    </div>
+
+    <script>
+        // 从URL获取订单信息
+        const params = new URLSearchParams(window.location.search);
+        document.getElementById('orderId').textContent = params.get('orderId');
+        document.getElementById('productName').textContent = params.get('product');
+        document.getElementById('quantity').textContent = params.get('quantity');
+        document.getElementById('email').textContent = params.get('email');
+        document.getElementById('totalAmount').textContent = params.get('amount');
+
+        // 加载收款二维码
+        async function loadQRCode() {
+            try {
+                const response = await fetch('/api/shop-info');
+                const info = await response.json();
+                const qrcodeImage = document.getElementById('qrcode-image');
+                if (info.qrcodePath) {
+                    qrcodeImage.src = info.qrcodePath;
+                } else {
+                    qrcodeImage.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('加载二维码失败:', error);
+            }
+        }
+
+        loadQRCode();
+    </script>
+</body>
+</html>
