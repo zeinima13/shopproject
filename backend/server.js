@@ -7,17 +7,23 @@ const bcrypt = require('bcryptjs');
 const cors = require('cors');
 
 const app = express();
-const PORT = 3000;
-const JWT_SECRET = 'your-secret-key';
+const PORT = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 // 确保必要的目录存在
-const DATA_DIR = path.join(__dirname, 'data');
-const UPLOAD_DIR = path.join(__dirname, '..', 'public', 'uploads');
+const DATA_DIR = path.join(process.env.DATA_DIR || __dirname, 'data');
+const UPLOAD_DIR = path.join(process.env.UPLOAD_DIR || __dirname, '..', 'public', 'uploads');
 const QRCODE_DIR = path.join(UPLOAD_DIR, 'qrcodes');
 
-fs.ensureDirSync(DATA_DIR);
-fs.ensureDirSync(UPLOAD_DIR);
-fs.ensureDirSync(QRCODE_DIR);
+// 确保目录存在
+try {
+    fs.ensureDirSync(DATA_DIR);
+    fs.ensureDirSync(UPLOAD_DIR);
+    fs.ensureDirSync(QRCODE_DIR);
+    console.log('所有必要目录已创建');
+} catch (error) {
+    console.error('创建目录时出错:', error);
+}
 
 // 初始化数据文件
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
@@ -393,6 +399,8 @@ app.post('/api/admin/import-products', async (req, res) => {
 });
 
 // 启动服务器
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`服务器运行在 http://localhost:${PORT}`);
+    console.log('数据目录:', DATA_DIR);
+    console.log('上传目录:', UPLOAD_DIR);
 });
