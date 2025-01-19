@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物网站</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between">
+                <div class="flex space-x-7">
+                    <div>
+                        <a href="#" class="flex items-center py-4">
+                            <span class="font-semibold text-gray-500 text-lg">购物网站</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <a href="#" class="py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded">登录</a>
+                    <a href="#" class="py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded">注册</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- 商品卡片示例 -->
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <img src="https://via.placeholder.com/300" alt="商品图片" class="w-full h-48 object-cover rounded">
+                <div class="mt-4">
+                    <h3 class="text-lg font-semibold">商品名称</h3>
+                    <p class="text-gray-600 mt-2">商品描述</p>
+                    <div class="mt-4 flex justify-between items-center">
+                        <span class="text-xl font-bold text-blue-600">¥99.00</span>
+                        <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                            加入购物车
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
