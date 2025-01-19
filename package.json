@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node api/index.js"
+    "start": "node index.js",
+    "vercel-build": "echo hello"
   },
   "dependencies": {
     "express": "^4.18.2",

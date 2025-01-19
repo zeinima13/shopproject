@@ -42,12 +42,6 @@
             margin: 0 auto;
             padding: 0 1rem;
         }
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 2rem;
-            padding: 1rem;
-        }
     </style>
 </head>
 <body>
@@ -61,19 +55,8 @@
 
     <div class="container">
         <div class="loading">
-            正在加载商品...
-        </div>
-        <div class="products" id="products">
-            <!-- 商品将通过 JavaScript 动态加载 -->
+            商品即将上线...
         </div>
     </div>
-
-    <script>
-        // 稍后添加商品加载逻辑
-        window.onload = function() {
-            // 暂时显示加载中
-            document.querySelector('.loading').textContent = '商品即将上线...';
-        };
-    </script>
 </body>
 </html>
