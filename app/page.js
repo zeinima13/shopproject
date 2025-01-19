@@ -1,18 +1,31 @@
 'use client'
 
+import Image from 'next/image'
 import { products } from './data/products'
-import ProductCard from './components/ProductCard'
 
 export default function Home() {
   return (
-    <div>
+    <main>
       <div className="header">
         <h1>优质商品 一站购齐</h1>
       </div>
       <div className="container">
         <div className="products-grid">
           {products.map(product => (
-            <ProductCard key={product.id} product={product} />
+            <div key={product.id} className="product-card">
+              <Image
+                src={product.image}
+                alt={product.name}
+                width={200}
+                height={200}
+              />
+              <h3>{product.name}</h3>
+              <p className="description">{product.description}</p>
+              <p className="price">¥{product.price}</p>
+              <button onClick={() => alert('添加到购物车')}>
+                加入购物车
+              </button>
+            </div>
           ))}
         </div>
       </div>
@@ -40,6 +53,6 @@ export default function Home() {
           text-align: center;
         }
       `}</style>
-    </div>
+    </main>
   )
 }
