@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node api/index.js",
-    "vercel-build": "echo 'Build step completed'"
+    "dev": "node api/index.js",
+    "build": "npm install",
+    "start": "node api/index.js"
   },
   "keywords": [],
   "author": "",
